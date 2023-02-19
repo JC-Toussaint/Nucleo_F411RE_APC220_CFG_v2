@@ -281,7 +281,7 @@ void LCD_BLE_TPS_PrintRSSI(uint8_t RSSI)
 
 void LCD_PrintError(uint32_t errId)
 {
-  sprintf(tempLcdBuffer, "#%02d", errId);
+  sprintf(tempLcdBuffer, "#%02lu", errId);
   SSD1306_DrawFilledRectangle(0,0,128,32,SSD1306_COLOR_WHITE);
   SSD1306_GotoXY(7,8);
   SSD1306_Puts("ERROR", &Font_11x18, SSD1306_COLOR_BLACK); 
