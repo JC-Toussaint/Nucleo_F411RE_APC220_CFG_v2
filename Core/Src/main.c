@@ -279,7 +279,7 @@ int main(void)
 		if (!isCaptured){
 			while (isUartRxNotEmpty()) {
 				char c = uartGetChar();
-				printf("%c", c);
+				//printf("%c", c);
 #ifdef SSD1306
 				if (c=='\r') {
 					uartGetChar(); // remove '\n'
