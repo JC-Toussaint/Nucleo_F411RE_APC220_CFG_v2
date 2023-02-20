@@ -174,6 +174,9 @@ int main(void)
 	SSD1306_GotoXY(0, 14);
 	SSD1306_Puts("ABCDEFGHIJK", &Font, SSD1306_COLOR_WHITE);
 	SSD1306_UpdateScreen();
+
+	HAL_Delay(2000);
+	SSD1306_Fill(SSD1306_COLOR_BLACK);
 #endif
 
 	printf("Start ...\n");
@@ -195,6 +198,7 @@ int main(void)
   Series checkout 1     Series checkout：0 means no check,1 means even parity,2 means odd parity.
 	 */
 
+#define BaudRate57600
 #ifdef BaudRate57600
 	len = snprintf ( buffer, 128, "WR 433900 4 9 6 0\r\n"); // ask for data
 #else
@@ -218,7 +222,7 @@ int main(void)
 	printf("\n");
 
 	/* ------------------------*/
-#define noBaudRate57600
+
 #ifdef BaudRate57600
 	LL_USART_Disable(USART1);
 	LL_USART_InitTypeDef USART_InitStruct = {0};
@@ -269,7 +273,7 @@ int main(void)
 		//		}
 		//		printf("%s\n", buffer);
 		//		if (len) printf("len %d\n");
-#define SZ (32)
+#define SZ (128)
 		char str[SZ];
 		int sz=0;
 		if (!isCaptured){
@@ -277,21 +281,21 @@ int main(void)
 				char c = uartGetChar();
 				printf("%c", c);
 #ifdef SSD1306
-				str[sz++] = c;
-				if (sz>=SZ-1){
+				if (c=='\r') {
+					uartGetChar(); // remove '\n'
 					str[sz]=0;
 					break;
 				}
-				if (c=='\r') {
-					uartGetChar(); // remove '\n'
+				str[sz++] = c;
+				if (sz>=SZ-1){
 					str[sz]=0;
 					break;
 				}
 #else
 				printf("%c", uartGetChar());
 #endif
-				isCaptured=1;
 			}
+			isCaptured=1;
 		}
 
 #ifdef SSD1306
@@ -299,7 +303,7 @@ int main(void)
 			printf("*%s*\n", str);
 			//FontDef_t Font = Font_11x18;
 			FontDef_t Font = Font_7x10;
-			SSD1306_Fill(SSD1306_COLOR_BLACK);
+			//SSD1306_Fill(SSD1306_COLOR_BLACK);
 			SSD1306_GotoXY(0, 0);
 			SSD1306_Puts(str, &Font, SSD1306_COLOR_WHITE);
 			SSD1306_UpdateScreen();

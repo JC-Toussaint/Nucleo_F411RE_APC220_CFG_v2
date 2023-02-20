@@ -1,0 +1,16 @@
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:1770:26:LL_USART_IsActiveFlag_ORE	16	static
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:1792:26:LL_USART_IsActiveFlag_RXNE	16	static
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:1814:26:LL_USART_IsActiveFlag_TXE	16	static
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:1934:22:LL_USART_ClearFlag_ORE	24	static
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:2057:22:LL_USART_EnableIT_TXE	40	static,ignoring_inline_asm
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:2153:22:LL_USART_DisableIT_TXE	40	static,ignoring_inline_asm
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:2227:26:LL_USART_IsEnabledIT_RXNE	16	static
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:2249:26:LL_USART_IsEnabledIT_TXE	16	static
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:2403:25:LL_USART_ReceiveData8	16	static
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h:2426:22:LL_USART_TransmitData8	16	static
+../Core/Src/uart.c:16:6:uartInterruptProcess	16	static
+../Core/Src/uart.c:70:6:uartTxFlush	4	static
+../Core/Src/uart.c:77:6:isUartRxNotEmpty	4	static
+../Core/Src/uart.c:82:6:uartGetChar	16	static
+../Core/Src/uart.c:97:6:uartPutChar	16	static
+../Core/Src/uart.c:118:6:uartSendStr	16	static
