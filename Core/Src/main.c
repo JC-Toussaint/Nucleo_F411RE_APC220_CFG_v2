@@ -198,18 +198,18 @@ int main(void)
   Series checkout 1     Series checkout：0 means no check,1 means even parity,2 means odd parity.
 	 */
 
-#define BaudRate57600
+#define noBaudRate57600
 #ifdef BaudRate57600
-	len = snprintf ( buffer, 128, "WR 433900 4 9 6 0\r\n"); // ask for data
+	len = snprintf ( buffer, 128, "WR 433900 3 9 6 0\r\n"); // ask for data
 #else
-	len = snprintf ( buffer, 128, "WR 433900 4 9 3 0\r\n"); // ask for data
+	len = snprintf ( buffer, 128, "WR 433900 3 9 3 0\r\n"); // ask for data
 #endif
 
-	printf("RX Flush\n");
-	do {
-		uartGetChar();
-	}
-	while (isUartRxNotEmpty());
+//	printf("RX Flush\n");
+//	do {
+//		uartGetChar();
+//	}
+//	while (isUartRxNotEmpty());
 
 	UART_Transmit((uint8_t *)buffer, len);
 	HAL_Delay(50);
@@ -274,41 +274,30 @@ int main(void)
 		//		printf("%s\n", buffer);
 		//		if (len) printf("len %d\n");
 #define SZ (128)
-		char str[SZ];
+		char str[SZ], c;
 		int sz=0;
-		if (!isCaptured){
-			while (isUartRxNotEmpty()) {
-				char c = uartGetChar();
-				//printf("%c", c);
-#ifdef SSD1306
-				if (c=='\r') {
-					uartGetChar(); // remove '\n'
-					str[sz]=0;
-					break;
-				}
-				str[sz++] = c;
-				if (sz>=SZ-1){
-					str[sz]=0;
-					break;
-				}
-#else
-				printf("%c", uartGetChar());
-#endif
-			}
-			isCaptured=1;
+
+		do {
+			c = uartGetChar();
+			str[sz++]=c;
 		}
+		while (isUartRxNotEmpty() || (c!='\r'));
+		uartGetChar(); // remove '\n'
+		str[sz]=0;
+		printf("*%s*\n", str);
+
+#ifdef RECEIPT
+		len = snprintf ( buffer, 128, "OK\r\n"); // ask for data
+		UART_Transmit((uint8_t *)buffer, len);
+		HAL_Delay(50);
+#endif
 
 #ifdef SSD1306
-		if (isCaptured){
-			printf("*%s*\n", str);
-			//FontDef_t Font = Font_11x18;
 			FontDef_t Font = Font_7x10;
-			//SSD1306_Fill(SSD1306_COLOR_BLACK);
+			SSD1306_Fill(SSD1306_COLOR_BLACK);
 			SSD1306_GotoXY(0, 0);
 			SSD1306_Puts(str, &Font, SSD1306_COLOR_WHITE);
 			SSD1306_UpdateScreen();
-			isCaptured=0;
-		}
 #endif
 
 	}
